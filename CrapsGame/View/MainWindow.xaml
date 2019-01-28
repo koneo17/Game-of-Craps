@@ -1,0 +1,50 @@
+﻿<Window x:Class="CrapsGame.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:CrapsGame.ViewModel"
+        xmlns:local="clr-namespace:CrapsGame"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="600" FontSize="16">
+    <Window.Resources>
+        <vm:GameViewModel x:Key="GameViewModel"></vm:GameViewModel>
+        <vm:PlayerViewModel x:Key="PlayerViewModel"></vm:PlayerViewModel>
+    </Window.Resources>
+    <Grid DataContext="{Binding Source={StaticResource GameViewModel}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+            <StackPanel  Margin="0,-10,0,0" Height="175" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Orientation="Vertical">
+            <Label HorizontalAlignment="Left"  Content="Game History" Margin="0,0,0,0"/>
+            <Grid HorizontalAlignment="Left" MaxHeight="130">
+                    <DataGrid x:Name="myDataGrid" ItemsSource="{Binding ListOfGames, Source={StaticResource GameViewModel}}" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Sum of Dices" Binding="{Binding SumOfDices}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Points" Binding="{Binding Points}"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </StackPanel>
+            <StackPanel Margin="285,0,0,100" Grid.Column="1" Grid.Row="0" Orientation="Vertical" Background="LightGray">
+                <Label Margin="0,0,0,10" Content="Points" FontWeight="Black"></Label>
+                <TextBlock HorizontalAlignment="Center" Margin="0,0,0,10" FontWeight="Black" Text="{Binding Points, UpdateSourceTrigger=PropertyChanged}" Width="30" Height="30"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <Button HorizontalAlignment="Center" Content="Roll Dices"  Margin="20,0,0,0" Width="100" Height ="50" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2"  Command="{Binding RollDiceCommand}"></Button>
+        <Label HorizontalAlignment="Center" Margin="0,20,0,0"  Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Content="{Binding Message, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold"></Label>
+        <Button HorizontalAlignment="Center" Margin="0,0,0,0" Width="100" Height="30" Grid.Column="0" Grid.Row="5" Content="Edit Profile" Command="{Binding EditPlayerCommand, Source={StaticResource PlayerViewModel}}"></Button>
+        <Button HorizontalAlignment="Center" Margin="0,0,0,0" Width="100" Height="30" Grid.Column="1" Grid.Row="5" Content="Log Out" Command="{Binding LogOutCommand, Source={StaticResource PlayerViewModel}}"></Button>
+    </Grid>
+</Window>
